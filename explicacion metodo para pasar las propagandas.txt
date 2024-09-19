@@ -1,0 +1,88 @@
+Claro, vamos a desglosar el método closeAd paso a paso para que puedas entender cómo funciona.
+
+1. Declaración del Método
+
+
+async closeAd() {
+  // El método se declara como asincrónico porque utiliza operaciones que pueden tardar (como esperar a que elementos se hagan visibles).
+  try {
+
+
+2. Localización del IFrame Principal del Anuncio
+
+
+    const adFrame = this.page.frameLocator('iframe[name^="aswift"][width=""]');
+
+
+ Esto localiza un iframe cuyo atributo name comienza con "aswift" y tiene un atributo width vacío. Este iframe contiene el anuncio.
+
+
+3. Verificación de la Visibilidad del Anuncio
+
+
+    const adVisible = await adFrame.locator('#ad_position_box').isVisible({ timeout: 10000 });
+
+ Dentro del iframe principal, busca un elemento con el ID ad_position_box y verifica si es visible. Espera hasta 10 segundos para que se haga visible.
+adVisible: Esta variable será true si el anuncio es visible y false si no lo es.
+
+4. Si el Anuncio es Visible
+
+
+    if (adVisible) {
+      console.log('Anuncio detectado, intentando cerrar...');
+
+Si el anuncio es visible, se imprime un mensaje en la consola indicando que se detectó el anuncio y se va a intentar cerrar.
+
+5. Localización del Botón de Cerrar en el IFrame Interno
+
+
+      const closeButton = adFrame.frameLocator('iframe[name="ad_iframe"]').locator('[aria-label="Close ad"]');
+
+adFrame.frameLocator('iframe[name="ad_iframe"]'): Localiza un iframe interno dentro del iframe principal. Este iframe contiene el contenido del anuncio.
+
+locator('[aria-label="Close ad"]'): Busca un elemento dentro de ese iframe que tenga un atributo aria-label con el valor "Close ad". Este debería ser el botón de cierre del anuncio.
+
+
+6. Verificación y Clic en el Botón de Cerrar
+
+
+      if (await closeButton.isVisible()) {
+        await closeButton.click();
+      } else {
+        await adFrame.locator('[aria-label="Close ad"]').click();
+      }
+await closeButton.isVisible(): Verifica si el botón de cerrar es visible.
+Si el botón es visible, hace clic en él.
+Si el botón no es visible, intenta buscar otro botón de cierre directamente en el iframe principal y hacer clic en él.
+
+
+7. Mensaje de Confirmación
+
+
+      console.log('Anuncio cerrado.');
+    } else {
+      console.log('No se detectó ningún anuncio.');
+    }
+console.log('Anuncio cerrado.'): Si el anuncio se cierra correctamente, imprime un mensaje de confirmación en la consola.
+console.log('No se detectó ningún anuncio.'): Si no se detecta ningún anuncio, imprime un mensaje indicando esto.
+
+
+8. Manejo de Errores
+
+
+  } catch (error) {
+    console.error('Error al cerrar el anuncio:', error);
+  }
+}
+catch (error): Si ocurre algún error en cualquier parte del proceso (por ejemplo, si el iframe o el botón no se encuentran), se captura el error y se imprime un mensaje de error en la consola.
+
+
+Resumen
+Este método closeAd está diseñado para cerrar un anuncio emergente que aparece en un iframe. Sigue estos pasos:
+
+Localiza el iframe principal que contiene el anuncio.
+Verifica si el anuncio es visible.
+Si es visible, intenta cerrar el anuncio buscando un botón de cierre en un iframe interno.
+Si el botón de cierre no es visible en el iframe interno, busca el botón de cierre en el iframe principal.
+Maneja cualquier error que ocurra durante el proceso e imprime mensajes informativos en la consola.
+Este método es útil para pruebas automatizadas en las que los anuncios emergentes pueden interferir con la ejecución de las pruebas.

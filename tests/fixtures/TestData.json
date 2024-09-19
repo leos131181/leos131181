@@ -1,0 +1,38 @@
+{
+  "usuarioNuevo": {
+    "nombre": "John",
+    "apellido": "Doe",
+    "email": "JhonDoe",
+    "emailDominio": "@example.com",
+    "contrasena": "L123456*",
+    "confirmarContrasena": "L123456*",
+    "fechaDeNacimiento": {"dia":13,
+                          "mes":"November",
+                          "anio": 1981},
+    "direccionUno": "Totoras 73",
+    "direccionDos": "Pasaje Candamo",
+    "pais": "Argentina",
+    "estado": "Córdoba",
+    "codigoPostal": "5000",
+    "telefono": "351351"
+  },
+  "detallesPagoUsuarioNuevo": {
+    "tarjetaTitular": "Jhon Doe",
+    "tarjetaNumero": {"primerosCuatroDigitos": "1111",
+                      "segundosCuatroDigitos": "2222",
+                      "tercerosCuatroDigitos": "3333",
+                      "cuartosCuatroDigitos": "4444"},
+    "cvc": "777",
+    "expiracionMes": "11",
+    "expiracionAnio": "2030"
+  },
+  "reseniaUsuarioNuevo":{
+    "calificacion": "3 - Bueno",
+    "textoResenia": "Leonardo Sánchez\nleo131181@gmail.com\nProducto recomendable"
+  }
+
+
+
+
+ 
+}
